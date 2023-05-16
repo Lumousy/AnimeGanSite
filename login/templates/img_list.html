@@ -1,0 +1,118 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Swapify</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <style>
+        @font-face {
+            font-family: 'Cute';
+            src: url('{% static 'bootstrap/fonts/cute.ttf'%}'); /* 字体文件的相对或绝对路径 */
+        }
+
+        .text-center {
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-default" style="padding: 20px 30px;font-size: 18px">
+    <div class="container-fluid">
+
+        <!-- Navigation Header -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/home/">Swapify</a>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/home/">主页</a></li>
+                <li><a href="/home/list/">{{ info_dict.name }}图片</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a> 当前用户：{{ info_dict.name }}</a>
+                </li>
+                <li>
+                    <a href="/home/exit/">注 销</a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+
+<!-- Main Content -->
+<div class="container">
+    <div class="main-section">
+        <table class="table">
+            <tr>
+                <th style="padding-left: 40px">id</th>
+                <th style="padding-left: 95px">input</th>
+                <th style="padding-left: 150px">output</th>
+                <th style="padding-left: 270px">操作</th>
+            </tr>
+            {% for x in queryset %}
+                <tr>
+                    <th style="padding-left: 40px">{{ x.id }}</th>
+                    <th style="padding-left: 40px">
+                        <img style="width: 150px; height: auto;" src="/static/media/{{ x.input_img }}"
+                             class="img-thumbnail">
+                    </th>
+                    <th style="padding-left: 100px">
+                        <img style="width: 150px; height: auto;" src="/static/media/{{ x.output_img }}"
+                             class="img-thumbnail">
+                    </th>
+
+                    <th style="padding-left: 200px">
+                        <a class="btn btn-primary " href="/home/view/?id={{ x.id }}" role="button">查看</a>
+                        <a class="btn btn-primary " href="/home/down/?id={{ x.id }}" role="button">下载</a>
+                        <a class="btn btn-danger " href="/home/del/?id={{ x.id }}" role="button">删除</a>
+                    </th>
+                </tr>
+            {% endfor %}
+
+        </table>
+
+    </div>
+</div>
+
+
+<!-- Footer -->
+<div class="footer">
+    <div class="container-fluid">
+        <hr>
+        <div class="text-center">
+            <p><a href="/home/">© Swapify </a></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function downloadImage(filename) {
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', `/img/download/${filename}`, true);
+        xhr.responseType = "blob";
+        xhr.onload = function () {
+            let url = window.URL.createObjectURL(xhr.response);
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+        }
+        xhr.send();
+    }
+</script>
+<script src="{% static 'jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+</body>
+</html>

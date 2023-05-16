@@ -1,0 +1,171 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Swapify</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <style>
+        .login_header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            margin-top: 100px;
+        }
+
+        .login_header__left {
+            flex-basis: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-left: 50px;
+        }
+
+        .login_header__center {
+            flex-basis: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login_header__right {
+            flex-basis: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-right: 50px;
+        }
+
+        .login_header__left img,
+        .login_header__right img,
+        .login_header__center img {
+            max-height: 100%;
+        }
+
+        .login_header__left p,
+        .login_header__right p,
+        .login_header__center p {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .enroll-box {
+            width: 500px;
+            height: 300px;
+            margin: 30px auto 130px;
+            padding-left: 40px;
+            padding-right: 40px;
+            padding-top: 10px;
+        }
+
+        .enroll-box h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .enroll-box h4 {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .enroll-box h5 {
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 20px;
+        }
+
+        .enroll-box button {
+            width: 100%;
+        }
+
+        .text-center {
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-default navbar-fixed-top" style="padding: 15px 30px;font-size: 18px">
+    <div class="container-fluid">
+        <!-- Navigation Header -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/index/">Swapify</a>
+        </div>
+        <!-- Navigation Links -->
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/index/">主页</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/login/">登 录</a>
+                </li>
+                <li>
+                    <a href="/enroll/">注 册</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container">
+    <div class="login_header">
+        <div class="login_header__left">
+            <img src="{% static 'images/l.png' %}" alt="Left Image">
+            <p>获取图片转化功能</p>
+        </div>
+        <div class="login_header__center">
+            <img src="{% static 'images/l2.png' %}" alt="Right Image">
+            <p>将您的图片进行存储</p>
+        </div>
+        <div class="login_header__right">
+            <img src="{% static 'images/l2.png' %}" alt="Right Image">
+            <p>可查看所有历史转换图片</p>
+        </div>
+    </div>
+    <hr>
+</div>
+
+<div class="enroll-box">
+    <h1>Welcome back!</h1>
+    <h4>注册你的账户以继续使用</h4>
+    <form method="post" action="/enroll/">
+        {% csrf_token %}
+        <div class="form-group">
+
+            <input type="text" class="form-control" name="name" placeholder="User">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" name="psw" placeholder="Password">
+        </div>
+        <h5>
+            已有账户？
+            <a href="/login/">马上登录</a>
+        </h5>
+        <button type="submit" class="btn btn-primary">提交</button>
+    </form>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <div class="container-fluid">
+        <hr>
+        <div class="text-center">
+            <p><a href="/index/">© Swapify </a></p>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+</body>
+</html>

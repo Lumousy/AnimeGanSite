@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Swapify</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <style>
+        .text-center {
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        /* 隐藏默认的文件选择按钮 */
+        input[type="file"] {
+            display: none;
+        }
+
+
+        /* 给文件选择按钮添加样式 */
+        .file-upload-btn {
+            background-color: #3276b1;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 16px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        /* 给文件名添加样式 */
+        .file-upload-name {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-default" style="padding: 20px 30px;font-size: 18px">
+    <div class="container-fluid">
+        <!-- Navigation Header -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/home/">Swapify</a>
+        </div>
+        <!-- Navigation Links -->
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/home/">主页</a></li>
+                <li><a href="/home/list/">用户图片</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a> 当前用户：{{ info_dict.name }}</a>
+                </li>
+                <li>
+                    <a href="/home/exit/">注 销</a>
+                </li>
+
+            </ul>
+
+        </div>
+    </div>
+    </div>
+</nav>
+<!-- Main Content -->
+<div class="container">
+
+    <div class="main-section">
+        <h2 style="text-align: center">AnimeGANv2</h2>
+        <p>Gradio 演示 AnimeGanv2
+            面部肖像。要使用它，只需上传您的图像，或单击其中一个示例以加载它们。请使用裁剪后的人像图片以获得最佳效果。</p>
+        <form method="post" enctype="multipart/form-data" action="/upload/">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="image" class="file-upload-btn">选择图像文件：</label>
+                <input type="file" id="image" name="image" onchange="updateFileName(this)">
+                <span class="file-upload-name">未选择文件</span>
+            </div>
+            <button type="submit" class="btn btn-primary file-upload-btn">上传</button>
+        </form>
+    </div>
+</div>
+
+
+<!-- Footer -->
+<div class="footer">
+    <div class="container-fluid">
+        <hr>
+        <div class="text-center">
+            <p><a href="/home/">© Swapify </a></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('form').on('submit', function (event) {
+            event.preventDefault();
+            var form_data = new FormData($(this)[0]);
+            $.ajax({
+                type: 'POST',
+                url: '/upload/',
+                data: form_data,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    alert('上传成功！');
+                },
+                error: function () {
+                    alert('上传失败！');
+                }
+            });
+        });
+    });
+
+    function updateFileName(el) {
+        var files = el.files;
+        if (files.length > 0) {
+            var fileName = files[0].name;
+            document.querySelector('.file-upload-name').textContent = fileName;
+        }
+    }
+</script>
+
+<script src="{% static 'jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+</body>
+</html>
